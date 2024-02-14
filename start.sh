@@ -13,17 +13,16 @@ if ! command -v yarn >/dev/null 2>&1; then
     exit 1
 fi
 
-# Check if git is installed
-if ! command -v git > /dev/null 2>&1; then
-    echo "git is not installed. Please install it from https://git-scm.com/downloads"
-    exit 1
-fi
-
 # Prompt user to update
 printf "Before running Omnitool, do you want to update the project from Github first? (y/n) " && read -r REPLY
 echo  # move to a new line
 
 if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
+    # Check if git is installed
+    if ! command -v git > /dev/null 2>&1; then
+        echo "git is not installed. Please install it from https://git-scm.com/downloads"
+        exit 1
+    fi
     # Pull latest changes from git
     if ! output=$(git pull --verbose); then
         echo "Error occurred during git pull: $output" ; echo "Exiting."
